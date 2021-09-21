@@ -1,5 +1,5 @@
 import smtplib, ssl
-import time, os
+import time, os, re, sys
 
 class AutoSender(object):
 	def main(self):
@@ -9,6 +9,21 @@ class AutoSender(object):
 		self.subject = input('Subject: ')
 		self.message = input('Message: ')
 		self.attachment = input('Attachment: ')
+		
+		gmail_server = smtplib.SMTP('smtp.gmail.com:587')
+		gmail_server.starttls()
+		try:
+			gmail_server.login(self.email, self.password)
+			resp = True
+			print('Password Correct')
+			gmail_server.quit()
+		except:
+			resp = False
+			gmail_server.quit()
+			print('Inccorect Password')
+			sys.exit()
+			return resp
+
 		os.system('clear')
 
 	def wait_time(self): # Time Function
@@ -19,14 +34,17 @@ class AutoSender(object):
 		""")
 		self.time = input('Time: ')
 		if 'd' in self.time:
+			print('Waiting ' + self.time)
 			convert_number = "".join(re.findall(r'\d+', self.time))
 			convert_time = int(convert_number)
 			time.sleep(86400 * convert_time)
 		elif 'm' in self.time:
+			print('Waiting ' + self.time)
 			convert_number = "".join(re.findall(r'\d+', self.time))
 			convert_time = int(convert_number)
 			time.sleep(60 * convert_time)
 		elif 's' in self.time:
+			print('Waiting' + self.time)
 			convert_number = "".join(re.findall(r'\d+', self.time))
 			convert_time = int(convert_number)
 			time.sleep(1 * convert_time)
@@ -35,6 +53,10 @@ class AutoSender(object):
 	def send(self): # Sending email in the end
 		self.main()
 		self.wait_time()
+		os.system('clear')
+		print('Sending message..')
+		# This will run after the time is done.
+
 
 
 obj = AutoSender()
