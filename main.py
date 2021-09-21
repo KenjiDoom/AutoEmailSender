@@ -44,7 +44,7 @@ class AutoSender(object):
 			convert_time = int(convert_number)
 			time.sleep(60 * convert_time)
 		elif 's' in self.time:
-			print('Waiting' + self.time)
+			print('Waiting ' + self.time)
 			convert_number = "".join(re.findall(r'\d+', self.time))
 			convert_time = int(convert_number)
 			time.sleep(1 * convert_time)
@@ -54,8 +54,15 @@ class AutoSender(object):
 		self.main()
 		self.wait_time()
 		os.system('clear')
+		port = 465
 		print('Sending message..')
 		# This will run after the time is done.
+		context = ssl.create_default_context()
+		with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+			server.login(self.email, self.password)
+			server.sendmail(self.email, self.recv, self.subject)
+			print('Sent.')
+
 
 
 
