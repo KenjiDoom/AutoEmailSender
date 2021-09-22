@@ -18,13 +18,9 @@ class AutoSender(object):
 		self.subject = input('Subject: ')
 		self.message = input('Message: ')
 		self.attachment = input('Attachment: ')
-		# self.final_message = """
-		# Subject: {}
-		#
-		# {}
-		# """.format(self.subject, self.message)
+
 		self.final_message_again = EmailMessage()
-		self.final_message_again.message_content(self.message)
+		self.final_message_again.set_content(self.message)
 		self.final_message_again['Subject'] = self.subject
 		self.final_message_again['From'] = self.email
 		self.final_message_again['To'] = self.recv
