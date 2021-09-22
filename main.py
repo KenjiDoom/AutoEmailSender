@@ -12,12 +12,12 @@ class AutoSender(object):
 /_/   \_\__,_|\__\___/____/ \___|_| |_|\__,_|\___|_|
 	Author @ github: kenjidoom
 """)	# ASKING USER INPUT DATA
-		self.email = input('Email: ')
-		self.password = getpass.getpass('Password: ')
-		self.recv = input('Reciver: ')
-		self.subject = input('Subject: ')
-		self.message = input('Message: ')
-		self.attachment = input('Attachment: ')
+		self.email = input('[+] Email: ')
+		self.password = getpass.getpass('[+] Password: ')
+		self.recv = input('[+] Reciver: ')
+		self.subject = input('[+] Subject: ')
+		self.message = input('[+] Message: ')
+		self.attachment = input('[+] Attachment: ')
 
 		# FORMATTING EMAIL HERE
 		self.final_message = EmailMessage()
