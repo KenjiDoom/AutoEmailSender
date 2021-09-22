@@ -13,7 +13,7 @@ class AutoSender(object):
 	Author @ github: kenjidoom
 """)	# ASKING USER INPUT DATA
 		self.email = input('Email: ')
-		self.password = input('Password: ')
+		self.password = getpass.getpass('Password: ')
 		self.recv = input('Reciver: ')
 		self.subject = input('Subject: ')
 		self.message = input('Message: ')
