@@ -49,7 +49,7 @@ class AutoSender(object):
 		m = minutes
 		s = seconds
 		""")
-		self.time = input('Time: ')
+		self.time = input('[+] Time: ')
 		if 'd' in self.time.lower():
 			print('[+] Waiting ' + self.time)# Self-Note: r'\d+' = rejex for numbers
 			convert_number = "".join(re.findall(r'\d+', self.time))
