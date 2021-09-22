@@ -1,6 +1,6 @@
-import smtplib, ssl
-import time, os, re, sys
 from email.message import EmailMessage
+import time, os, re, sys, getpass
+import smtplib, ssl
 
 class AutoSender(object):
 	def main(self):
@@ -11,7 +11,7 @@ class AutoSender(object):
  / ___ \ |_| | || (_) |__) |  __/ | | | (_| |  __/ |
 /_/   \_\__,_|\__\___/____/ \___|_| |_|\__,_|\___|_|
 	Author @ github: kenjidoom
-""")
+""")	# ASKING USER INPUT DATA
 		self.email = input('Email: ')
 		self.password = input('Password: ')
 		self.recv = input('Reciver: ')
@@ -19,13 +19,14 @@ class AutoSender(object):
 		self.message = input('Message: ')
 		self.attachment = input('Attachment: ')
 
-		self.final_message_again = EmailMessage()
-		self.final_message_again.set_content(self.message)
-		self.final_message_again['Subject'] = self.subject
-		self.final_message_again['From'] = self.email
-		self.final_message_again['To'] = self.recv
+		# FORMATTING EMAIL HERE
+		self.final_message = EmailMessage()
+		self.final_message.set_content(self.message)
+		self.final_message['Subject'] = self.subject
+		self.final_message['From'] = self.email
+		self.final_message['To'] = self.recv
 
-
+		# CHECKING IF CREDS ARE VALID
 		gmail_server = smtplib.SMTP('smtp.gmail.com:587')
 		gmail_server.starttls()
 		try:
@@ -50,7 +51,7 @@ class AutoSender(object):
 		""")
 		self.time = input('Time: ')
 		if 'd' in self.time.lower():
-			print('[+] Waiting ' + self.time)
+			print('[+] Waiting ' + self.time)# Self-Note: r'\d+' = rejex for numbers
 			convert_number = "".join(re.findall(r'\d+', self.time))
 			convert_time = int(convert_number)
 			time.sleep(86400 * convert_time)
@@ -78,9 +79,8 @@ class AutoSender(object):
 		context = ssl.create_default_context()
 		with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
 			server.login(self.email, self.password)
-			server.send_message(self.final_message_again)
+			server.send_message(self.final_message)
 			print('[+] Sent.')
-
 
 
 
