@@ -1,6 +1,9 @@
-from email.message import EmailMessage
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email import encoders
 import time, os, re, sys, getpass
-import smtplib, ssl
+import smtplib, ssl, email
 
 class AutoSender(object):
 	def main(self):
@@ -16,15 +19,24 @@ class AutoSender(object):
 		self.password = getpass.getpass('[+] Password: ')
 		self.recv = input('[+] Reciver: ')
 		self.subject = input('[+] Subject: ')
-		self.message = input('[+] Message: ')
+		self.body = input('[+] Message: ')
 		self.attachment = input('[+] Attachment: ')
 
 		# FORMATTING EMAIL HERE
-		self.final_message = EmailMessage()
-		self.final_message.set_content(self.message)
-		self.final_message['Subject'] = self.subject
-		self.final_message['From'] = self.email
-		self.final_message['To'] = self.recv
+		self.message = MIMEMultipart()
+		#self.message.set_content(self.body)
+		self.message['Subject'] = self.subject
+		self.message['From'] = self.email
+		self.message['To'] = self.recv
+		self.message.attach(MIMEText(self.body, "plain"))
+
+		if os.path.exists(self.attachment):
+			with open(self.attachment, 'rb') as file:
+				self.part = MIMEBase("application", "zip")
+				self.part.set_payload(file.read())
+		else:
+			print('[-] No File Found')
+
 
 		# CHECKING IF CREDS ARE VALID
 		gmail_server = smtplib.SMTP('smtp.gmail.com:587')
@@ -74,12 +86,18 @@ class AutoSender(object):
 		self.wait_time()
 		os.system('clear')
 		port = 465
+		encoders.encode_base64(self.part)
+		self.part.add_header(
+		"Content-Disposition",
+		f"attachment; filename={self.attachment}")
+		self.message(self.part)
+		self.text = self.message.as_string()
 		print('[+] Sending message....')
 		# This will run after the time is done.
 		context = ssl.create_default_context()
 		with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
 			server.login(self.email, self.password)
-			server.send_message(self.final_message)
+			server.send_message(self.text)
 			print('[+] Sent.')
 
 
