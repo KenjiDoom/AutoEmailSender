@@ -1,6 +1,6 @@
-from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from email import encoders
 import time, os, re, sys, getpass
 import smtplib, ssl, email
@@ -36,7 +36,6 @@ class AutoSender(object):
 				self.part.set_payload(file.read())
 		else:
 			print('[-] No File Found')
-
 
 		# CHECKING IF CREDS ARE VALID
 		gmail_server = smtplib.SMTP('smtp.gmail.com:587')
@@ -90,16 +89,15 @@ class AutoSender(object):
 		self.part.add_header(
 		"Content-Disposition",
 		f"attachment; filename={self.attachment}")
-		self.message(self.part)
+		self.message = self.part # For some reason this does not work
 		self.text = self.message.as_string()
 		print('[+] Sending message....')
 		# This will run after the time is done.
 		context = ssl.create_default_context()
 		with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
 			server.login(self.email, self.password)
-			server.send_message(self.text)
+			server.sendmail(self.email, self.recv, self.text)
 			print('[+] Sent.')
-
 
 
 obj = AutoSender()
