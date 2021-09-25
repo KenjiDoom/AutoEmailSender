@@ -89,7 +89,7 @@ class AutoSender(object):
 		self.part.add_header(
 		"Content-Disposition",
 		f"attachment; filename={self.attachment}")
-		self.message = self.part # For some reason this does not work
+		self.message.attach(self.part) # For some reason this does not work
 		self.text = self.message.as_string()
 		print('[+] Sending message....')
 		# This will run after the time is done.
