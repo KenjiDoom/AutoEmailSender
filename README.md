@@ -1,7 +1,7 @@
 # AutoEmailSender
 AutoEmailSender is a application used for sending emails after a specified time.
 Note: The user must enable Less secure app access in there [google account security settings.](https://myaccount.google.com/lesssecureapps)  
-![](prototype/program_image.png)
+![](prototypes/program_image.png)
 # Installation
 1. Clone the repo
 `
